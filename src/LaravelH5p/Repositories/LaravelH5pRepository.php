@@ -1023,4 +1023,25 @@ class LaravelH5pRepository implements H5PFrameworkInterface
             );
         }
     }
+    
+    /**
+	 * Implements loadAddons
+	 */
+	public function loadAddons() {
+		$result = DB::select("SELECT l1.id, l1.name, l1.major_version, l1.minor_version, l1.add_to, l1.preloaded_js, l1.preloaded_css
+							FROM h5p_libraries as l1
+						LEFT JOIN h5p_libraries as l2 ON l1.name = l2.name AND
+														(l1.major_version < l2.major_version OR
+														(l1.major_version = l2.major_version AND
+														l1.minor_version < l2.minor_version))
+							WHERE l1.add_to IS NOT NULL
+							AND l2.name IS NULL");
+
+		$addons = array();
+		foreach($result as $addon)
+		{
+			$addons[] = \H5PCore::snakeToCamel($addon);
+		}
+		return $addons;
+	}
 }
