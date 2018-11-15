@@ -1043,5 +1043,11 @@ class LaravelH5pRepository implements H5PFrameworkInterface
 			$addons[] = \H5PCore::snakeToCamel($addon);
 		}
 		return $addons;
+    }
+    /**
+	 * Implements getLibraryConfig
+	 */
+	public function getLibraryConfig($libraries = NULL) {
+		return $this->getOption('library_config', NULL);
 	}
 }

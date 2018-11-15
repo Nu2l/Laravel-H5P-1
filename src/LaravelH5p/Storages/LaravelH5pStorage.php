@@ -571,4 +571,17 @@ class LaravelH5pStorage implements H5PFileStorage
         return $this->path.'/editor';
 //        return ($this->alteditorpath !== NULL ? $this->alteditorpath : "{$this->path}/editor");
     }
+
+    /**
+	 * Check if the file presave.js exists in the root of the library
+	 *
+	 * @param string $libraryFolder
+	 * @param string $developmentPath
+	 * @return bool
+	 */
+    public function hasPresave($libraryFolder, $developmentPath = null) {
+		$path = is_null($developmentPath) ? 'libraries' . DIRECTORY_SEPARATOR . $libraryFolder : $developmentPath;
+		$filePath = realpath($this->path . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . 'presave.js');
+		return file_exists($filePath);
+	}
 }
